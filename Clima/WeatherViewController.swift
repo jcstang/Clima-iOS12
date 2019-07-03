@@ -59,6 +59,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
                 print("happy day")
                 if let json = response.result.value {
                     print("JSON: \(json)") // serialized json response
+                    let sJson = JSON(json)
+                    print("SWIFTY-JSON: \(sJson)")
+                    
                 }
                 
             }
