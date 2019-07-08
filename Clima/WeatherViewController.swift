@@ -12,7 +12,9 @@ import Alamofire
 import SwiftyJSON
 
 
-class WeatherViewController: UIViewController, CLLocationManagerDelegate {
+class WeatherViewController: UIViewController, CLLocationManagerDelegate, ChangeCityDelegate {
+    
+    
     
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
@@ -22,6 +24,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
 
     //TODO: Declare instance variables here
     let locationManager = CLLocationManager()
+    let weatherDataModel = WeatherDataModel()
 
     
     //Pre-linked IBOutlets
@@ -58,11 +61,13 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
                 
                 let weatherJSON: JSON = JSON(response.result.value!)
                 
-                print(weatherJSON)
+                //print(weatherJSON)
+                self.updateWeatherData(json: weatherJSON)
+                self.updateUIWithWeatherData()
                 
             }
             else {
-                print("Error \(response.result.error)")
+                //print("Error \(response.result.error)")
                 self.cityLabel.text = "Connection Issues"
             }
             
@@ -72,15 +77,30 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
 
     
     
-    
-    
-    
+
     //MARK: - JSON Parsing
     /***************************************************************/
-   
-    
     //Write the updateWeatherData method here:
-    
+    func updateWeatherData(json: JSON) {
+        
+        if let tempResult = json["main"]["temp"].double {
+            
+            print(json)
+            //weatherDataModel.temperature = Int( tempResult - 273.15 )
+            weatherDataModel.temperature = Int( 1.8 * (tempResult - 273.15) ) + 32
+
+            weatherDataModel.city = json["name"].stringValue
+            
+            weatherDataModel.condition = json["weather"][0]["id"].intValue
+            
+            weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition)
+        }
+        else {
+            cityLabel.text = "Weather Unavailable"
+        }
+        
+        
+    }
 
     
     
@@ -88,9 +108,15 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - UI Updates
     /***************************************************************/
     
-    
     //Write the updateUIWithWeatherData method here:
     
+    func updateUIWithWeatherData() {
+        
+        cityLabel.text = weatherDataModel.city
+        //temperatureLabel.text = String(weatherDataModel.temperature)
+        temperatureLabel.text = "\(weatherDataModel.temperature)°"
+        weatherIcon.image = UIImage(named: weatherDataModel.weatherIconName)
+    }
     
     
     
@@ -136,11 +162,19 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     
     
     //Write the userEnteredANewCityName Delegate method here:
-    
+    func userEnteredANewCityName(city: String) {
+        print("The name of the city that the user pressed in the last screen is: \(city)")
+    }
 
     
     //Write the PrepareForSegue Method here
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let destinationVC = segue.destination as! ChangeCityViewController
+        
+        destinationVC.delegate = self
+    }
     
     
     
