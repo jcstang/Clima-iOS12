@@ -47,7 +47,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
         
     }
     
-    
+
     
     //MARK: - Networking
     /***************************************************************/
