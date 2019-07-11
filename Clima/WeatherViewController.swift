@@ -15,6 +15,8 @@ import SwiftyJSON
 class WeatherViewController: UIViewController, CLLocationManagerDelegate, ChangeCityDelegate {
     
     
+    
+    
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
     let APP_ID = "708895333ebe328cc344b2e28ba47ac7"
@@ -101,8 +103,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
 
     
     
-    
-    
+
     //MARK: - UI Updates
     /***************************************************************/
 
@@ -154,15 +155,22 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     /***************************************************************/
     
     func userEnteredANewCityName(city: String) {
-        print("The name of the city that the user pressed in the last screen is: \(city)")
+        //print("The name of the city that the user pressed in the last screen is: \(city)")
+        let params: [String: String] = ["q": city, "appid": APP_ID]
+    }
+    
+    func randomProtocolThing(name: String) {
+        //stuff
     }
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let destinationVC = segue.destination as! ChangeCityViewController
+        //let destinationVC = segue.destination as! ChangeCityViewController
+        let changeCityVC = segue.destination as! ChangeCityViewController
         
-        destinationVC.delegate = self
+        //destinationVC.delegate = self
+        changeCityVC.delegate = self
     }
     
     

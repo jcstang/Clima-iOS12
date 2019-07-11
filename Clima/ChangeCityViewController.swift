@@ -12,22 +12,18 @@ import UIKit
 //Write the protocol declaration here:
 protocol ChangeCityDelegate {
     func userEnteredANewCityName (city: String)
+    func randomProtocolThing (name: String)
 }
 
 
 class ChangeCityViewController: UIViewController {
     
-    //Declare the delegate variable here:
     var delegate: ChangeCityDelegate?
     
-    //This is the pre-linked IBOutlets to the text field:
     @IBOutlet weak var changeCityTextField: UITextField!
 
-    
-    //This is the IBAction that gets called when the user taps on the "Get Weather" button:
     @IBAction func getWeatherPressed(_ sender: AnyObject) {
         
-        //send message that contains the city
         //1 Get the city name the user entered in the text field
         let cityName = changeCityTextField.text!
         
