@@ -148,19 +148,19 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     }
     
     
-    
 
-    
     //MARK: - Change City Delegate methods
     /***************************************************************/
     
     func userEnteredANewCityName(city: String) {
         //print("The name of the city that the user pressed in the last screen is: \(city)")
         let params: [String: String] = ["q": city, "appid": APP_ID]
+        getWeatherData(url: WEATHER_URL, parameters: params)
     }
     
     func randomProtocolThing(name: String) {
         //stuff
+        //testing protocols and learning
     }
 
     
